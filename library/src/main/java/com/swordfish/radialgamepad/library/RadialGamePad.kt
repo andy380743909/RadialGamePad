@@ -602,18 +602,6 @@ class RadialGamePad @JvmOverloads constructor(
 
         val fingers = extractFingersPositions(event).toList()
 
-        // 判断是否有手指在 dial 的区域内
-        val isTouchInDial = fingers.any { finger ->
-            allDials.any { dial ->
-                touchBounds[dial]?.contains(finger.x, finger.y) == true
-            }
-        }
-
-        // 如果没有手指在 dial 的区域内，返回 false，让事件继续传递
-        if (!isTouchInDial) {
-            return false
-        }
-
         val trackedFingers = allDials
             .map { it.trackedPointersIds() }
             .reduceRight { a, b -> a.union(b) }
